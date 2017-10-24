@@ -34,6 +34,7 @@
   </div>
 
   <script>
+
   function getAuthorDetails(element){
     $author = $(element).parent().parent().parent().find('p').find('.quote-author').html();
     url = '/dashboard/' + $author + '/details';
@@ -44,9 +45,17 @@
         triggerModal(data)
       },
       error: function(error){
+
       }
-    });
+    });  
   }
+
+  function deleteQuote(element){
+    if (confirm('Are you sure you want to delete this Quote?')){
+
+    }
+  }
+
   function triggerModal(data){
     $modal = $('#myModal');
     $modal.find('.modal-dialog').find('.modal-content').find('.modal-body').html(data.description);
@@ -63,10 +72,12 @@
     function likeQuote(thumb){
       {% if user.is_authenticated %}
         $(thumb).toggleClass('btn-like-quote')
+
         // route: /like/(id)
         // Take the index of the current like-button and add
         // 1 to it (so it starts at 1) to match the primary-key
         // of the database
+
         id = $('.like-btn').index(thumb)+1
         var url = '/like/' + id.toString()
         $.ajax({

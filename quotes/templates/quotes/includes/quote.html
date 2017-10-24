@@ -4,11 +4,14 @@
   <img class="card-img-top" src="{% static 'images/landscape.jpg' %}" width="320px" height="180px" alt="Card image cap">
   <div class="card-block">
     <h4 class="card-title" style="margin-top: 10px;">{{ quote.text }}</h4>
-    <p class="card-text">~<strong class="quote-author">{{ quote.author }}</strong> <em>(Posted on {{ quote.date }})</em></p>
+    <p class="card-text">~<strong class="quote-author"><a href="/dashboard/{{ quote.author }}">{{ quote.author }}</a></strong> <em>(Posted on {{ quote.date }})</em></p>
 
     <div class="row">
       <div class="col-lg-8 col-md-12">
         <button onclick='getAuthorDetails(this)' class="btn btn-primary">About The Author</button>
+        {% if request.user.username == quote.author %}
+          <button onclick='deleteQuote(this)' class="btn btn-danger">Delete</button>
+        {% endif %}
       </div>
       <div class="col-lg-4 col-md-4">
         {% if quote.id in liked_quote_ids %}

@@ -25,12 +25,14 @@ def dashboard(request, username):
 
     #user = User.objects.get(username=username)
     user = username_to_user(username)
+    my_quotes = Quote.objects.all().filter(author=user.username)
     liked_quotes = Like.objects.all().filter(user=user)
 
     liked_quote_ids = [x.quote_id for x in liked_quotes]
     liked_quotes = [x for x in Quote.objects.all() if x.id in liked_quote_ids]
 
-    data = {'liked_quotes': liked_quotes, 'liked_quote_ids': liked_quote_ids}
+    data = {'liked_quotes': liked_quotes, 'liked_quote_ids': liked_quote_ids,
+            'my_quotes': my_quotes}
 
     return render(request, 'quotes/dashboard.html', data)
 
@@ -61,7 +63,10 @@ def dashboard_add_quote(request, username):
     text = request.POST.get('quote')
 
     if text:
-        new_quote = Quote.objects.create(text=text, author=username, date=datetime.now())
-        new_quote.save()
+        # TODO: return visual feedback if quote already exists
+        if not Quote.objects.filter(text=text):
+            new_quote = Quote.objects.create(text=text, author=username, date=datetime.now())
+            new_quote.save()
+
 
     return render(request, 'quotes/dashboard-add.html')

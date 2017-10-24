@@ -3,9 +3,28 @@
 {% block content %}
 
 <div class="container-fluid">
-  
-  <h1>Quotes that I like</h1>
-  <hr />
+
+  <div class="container">
+    <hr />
+    <h1>My Quotes</h1>
+    <hr />
+  </div>
+
+  <div class="row">
+    {% for quote in my_quotes %}
+      <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        {% include 'quotes/includes/quote.html' %}
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="container">
+    <hr />
+    <a href="/dashboard/{{ user.username }}/add" style="color: white;" class="btn btn-success">Post A Quote</a>
+    <hr />
+    <h1>Quotes that I like</h1>
+    <hr />
+  </div>
 
   <div class="row">
     {% for quote in liked_quotes %}
