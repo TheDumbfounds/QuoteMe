@@ -6,6 +6,9 @@ from django.contrib.auth.models import User
 from datetime import datetime
 import json
 
+def username_to_user(username):
+    return User.objects.get(username=username)
+
 def index(request):
 
     quotes = Quote.objects.all()
@@ -20,7 +23,8 @@ def index(request):
 
 def dashboard(request, username):
 
-    user = User.objects.get(username=username)
+    #user = User.objects.get(username=username)
+    user = username_to_user(username)
     liked_quotes = Like.objects.all().filter(user=user)
 
     liked_quote_ids = [x.quote_id for x in liked_quotes]
@@ -51,3 +55,13 @@ def like_button_clicked(request, quote_id):
         return redirect(reverse('index'))
     else:
         return redirect(reverse('login'))
+
+def dashboard_add_quote(request, username):
+
+    text = request.POST.get('quote')
+
+    if text:
+        new_quote = Quote.objects.create(text=text, author=username, date=datetime.now())
+        new_quote.save()
+
+    return render(request, 'quotes/dashboard-add.html')

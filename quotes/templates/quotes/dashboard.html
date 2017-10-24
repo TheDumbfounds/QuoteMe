@@ -2,21 +2,18 @@
 
 {% block content %}
 
-    <div class="row">
-      <h1>Quotes that I like</h1>
-      <div class="col-lg-3 col-md-4">
+<div class="container-fluid">
+  
+  <h1>Quotes that I like</h1>
+  <hr />
 
+  <div class="row">
+    {% for quote in liked_quotes %}
+      <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        {% include 'quotes/includes/quote.html' %}
       </div>
-    </div>
-
-    <div class="container-fluid">
-      <div class="row">
-        {% for quote in liked_quotes %}
-          <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-xs-12">
-            {% include 'quotes/includes/quote.html' %}
-          </div>
-        {% endfor %}
-      </div>
-    </div>
+    {% endfor %}
+  </div>
+</div>
 
 {% endblock %}
